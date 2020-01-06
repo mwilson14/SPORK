@@ -8,6 +8,27 @@ from pyproj import Geod
 from metpy.calc import get_wind_dir, get_wind_speed, get_wind_components
 
 def zdrarc(zdrc,ZDRmasked,CC,REF,grad_ffd,grad_mag,KDP,forest_loaded,ax,f,time_start,month,d_beg,h_beg,min_beg,sec_beg,d_end,h_end,min_end,sec_end,rlons,rlats,max_lons_c,max_lats_c,zdrlev,proj,storm_relative_dir,Outer_r,Inner_r,tracking_ind):
+    #Inputs,
+    #zdrc: Contour of differential reflectivity at zdrlev (typically 1.5 dB)
+    #ZDRmasked: Masked array ZDRmasked1 in regions outside the forward flank (grad_ffd) and below 0.6 CC
+    #CC: 1km Correlation Coefficient (CC) grid
+    #REF: 1km Reflectivity grid
+    #grad_ffd: Angle (degrees) used to indicate angular region of supercell containing the forward flank
+    #grad_mag: Array of wind velocity magnitude along reflectivity gradient
+    #KDP: 1km Specific Differential Phase (KDP) grid
+    #forest_loaded: Random forest pickle file for Zdr arcs
+    #ax: Subplot object to be built on with each contour
+    #f: Placefile, edited throughout the program
+    #time_start: Radar file date and time of scan
+    #month: Month of case, supplied by user
+    #d_beg,h_beg,min_beg,sec_beg,d_end,h_end,min_end,sec_end: Day, hour, minute, second of the beginning and end of a scan
+    #rlons,rlats: Full volume geographic coordinates, longitude and latitude respectively
+    #max_lons_c,max_lats_c: Centroid coordinates of storm objects
+    #zdrlev: User defined value for Zdr contour of arcs
+    #proj: Projection of Earth's surface to be used for accurate area and distance calculations
+    #storm_relative_dir: Vector direction along the reflectivity gradient in the forward flank
+    #Outer_r,Inner_r: Outer and Inner limit of radar range effective for analysis
+    #tracking_ind: Index for storm of interest
     zdr_areas = []
     zdr_centroid_lon = []
     zdr_centroid_lat = []
@@ -124,4 +145,18 @@ def zdrarc(zdrc,ZDRmasked,CC,REF,grad_ffd,grad_mag,KDP,forest_loaded,ax,f,time_s
                             f.write("End: \n \n")
                             if (((max_lons_c[np.where(dist == np.min(dist))[0][0]]) in max_lons_c[tracking_ind]) and ((max_lats_c[np.where(dist == np.min(dist))[0][0]]) in max_lats_c[tracking_ind])):
                                 zdr_outlines.append(polypath)
+
+    #Returning Variables,
+    #zdr_storm_lon,zdr_storm_lat: Storm object centroids associated with Zdr arcs
+    #zdr_dist: Zdr arc centroid distance from associated storm object centroid
+    #zdr_forw,zdr_back: Forward and rear angles about the zdr arc region
+    #zdr_areas: Zdr arc area
+    #zdr_centroid_lon,zdr_centroid_lat: Zdr arc centroid coordinates
+    #zdr_mean: Mean value of Zdr within arc
+    #zdr_cc_mean: Mean value of CC within arc
+    #zdr_max: Maximum value of Zdr within arc
+    #zdr_masks: Mask array of zdr arc
+    #zdr_outlines: Zdr arc contour array
+    #ax: Subplot object to be built on with each contour
+    #f: Placefile, edited throughout the program
     return zdr_storm_lon,zdr_storm_lat,zdr_dist,zdr_forw,zdr_back,zdr_areas,zdr_centroid_lon,zdr_centroid_lat,zdr_mean,zdr_cc_mean,zdr_max,zdr_masks,zdr_outlines,ax,f
