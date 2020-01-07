@@ -6,21 +6,16 @@ from scipy import ndimage as ndi
 #Calculate KDP manually following NWS methodology
 #First, get the phidp gradient
 def kdp_genesis(radar):
-      #Inputs,
-      #radar: Quality-controlled volume data
       print('KDP Section')
-      #Using NWS method, creating ungridded, smoothed KDP field
-      #Pulling in required radar fields; Differential phase to have a gradient applied, Correlation coefficient and reflectivity for smoothing
       phidp_ungridded = radar.fields['differential_phase']['data']
       cc_ungridded = radar.fields['cross_correlation_ratio']['data']
       ref_ungridded = radar.fields['reflectivity']['data']
       
-      #Creating KDP as the range deriative/gradient of Phidp
       phidp_ungridded = np.asarray(np.gradient(phidp_ungridded))/0.50
       kdp_raw = phidp_ungridded[1,:,:]
       kdp_raw = ma.masked_where(kdp_raw > 40., kdp_raw)
 
-      #Perform NWS outlined smoothing process
+      #Do NWS smoothing process
       kdp_9s = ndi.uniform_filter1d(kdp_raw, 8, 1)
       kdp_25s = ndi.uniform_filter1d(kdp_raw, 24, 1)
       kdp_9s = ma.masked_where(ref_ungridded < 20, kdp_9s)
@@ -46,7 +41,4 @@ def kdp_genesis(radar):
       kdp_nwsdict['data'] = kdp_9s
       kdp_nwsdict['valid_min'] = 0.0
       kdp_nwsdict['Clipf'] = 3906250000.0
-
-      #Returning variables,
-      #kdp_nwsdict: Fully smoothed KDP dictionary to be added to radar data object
       return kdp_nwsdict

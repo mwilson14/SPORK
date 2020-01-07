@@ -114,7 +114,7 @@ def multi_case_algorithm_ML1_dev(storm_relative_dir, zdrlev, kdplev, REFlev, REF
         if radar1.nsweeps > zero_z_trigger:
             continue
 
-        #Calling quality_control from ungridded_section.py; See separate function for break-down
+        #Calling ungridded_section; Pulling apart radar sweeps and creating ungridded data arrays
         [radar,n,range_2d,last_height,rlons_h,rlats_h,ungrid_lons,ungrid_lats] = quality_control(radar1,n,calibration)
 
         time_start = netCDF4.num2date(radar.time['data'][0], radar.time['units'])
@@ -158,17 +158,18 @@ def multi_case_algorithm_ML1_dev(storm_relative_dir, zdrlev, kdplev, REFlev, REF
         if d_end < 10:
             d_end = '0'+str(d_end)
 
-        #Calling kdp_section; See separate function for break-down
+        #Calling kdp_section; Using NWS method, creating ungridded, smoothed KDP field
         kdp_nwsdict = kdp_genesis(radar)
 
         #Add field to radar
         radar.add_field('KDP', kdp_nwsdict)
         kdp_ungridded_nws = radar.fields['KDP']['data']
 
-        #Calling gridding from grid_section.py; See separate function for break-down
+
+        #Calling grid_section; Now let's grid the data on a ~250 m x 250 m grid
         [Zint,REF,KDP,CC,CC_c,CCall,ZDRmasked1,ZDRrmasked1,REFmasked,REFrmasked,KDPmasked,KDPrmasked,rlons,rlats,rlons_2d,rlats_2d,cenlat,cenlon] = gridding(radar,Z0C)
 
-        #Calling grad_mask from gradient_section.py; See separate function for break-down
+        #Calling gradient_section; Determining gradient direction and masking some Zhh and Zdr grid fields
         [grad_mag,grad_ffd,ZDRmasked,ZDRallmasked,ZDRrmasked] = grad_mask(Zint,REFmasked,REF,storm_relative_dir,ZDRmasked1,ZDRrmasked1,CC,CCall)
 
 
@@ -250,9 +251,8 @@ def multi_case_algorithm_ML1_dev(storm_relative_dir, zdrlev, kdplev, REFlev, REF
         #Main part of storm tracking algorithm starts by looping through all contours looking for Z centroids
         #This method for breaking contours into polygons based on this stack overflow tutorial:
         #https://gis.stackexchange.com/questions/99917/converting-matplotlib-contour-objects-to-shapely-objects
-
-        #Calling storm_objects from stormid_section.py
-        [storm_ids,max_lons_c,max_lats_c,ref_areas,storm_index] = storm_objects(refc,proj,REFlev,REFlev1,big_storm,smoothed_ref,ax,rlons,rlats,storm_index,tracking_index,scan_index,tracks_dataframe,track_dis)
+        #Calling stormid_section
+        [storm_ids,max_lons_c,max_lats_c,ref_areas,storm_index] = storm_objects(refc,proj,REFlev,REFlev1,big_storm,smoothed_ref,ax,rlons,rlats,storm_index,tracking_index,scan_index,tracks_dataframe, track_dis)
 
         #Setup tracking index for storm of interest
         tracking_ind=np.where(np.asarray(storm_ids)==storm_to_track)[0]

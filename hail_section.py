@@ -7,17 +7,6 @@ from matplotlib.patches import PathPatch
 from pyproj import Geod
 
 def hail_objects(hailc,REF_Hail2,ax,f,time_start,month,d_beg,h_beg,min_beg,sec_beg,d_end,h_end,min_end,sec_end,rlons,rlats,max_lons_c,max_lats_c,proj):
-    #Inputs,
-    #REF_Hail2: REFmasked masked where Zdr and CC greater than 1.0
-    #hailc: Contour of REF_Hail2 where reflectivity greater than 50.0 dBz
-    #ax: Subplot object to be built on with each contour
-    #f: Placefile, edited throughout the program
-    #time_start: Radar file date and time of scan
-    #month: Month of case, supplied by user
-    #d_beg,h_beg,min_beg,sec_beg,d_end,h_end,min_end,sec_end: Day, hour, minute, second of the beginning and end of a scan
-    #rlons,rlats: Full volume geographic coordinates, longitude and latitude respectively
-    #max_lons_c,max_lats_c: Centroid coordinates of storm objects
-    #proj: Projection of Earth's surface to be used for accurate area and distance calculations
     hail_areas = []
     hail_centroid_lon = []
     hail_centroid_lat = []
@@ -70,10 +59,4 @@ def hail_objects(hailc,REF_Hail2,ax,f,time_start,month,d_beg,h_beg,min_beg,sec_b
                             f.write("%.5f" %(hail_path.vertices[i][0]))
                             f.write('\n')
                         f.write("End: \n \n")
-    #Returning Variables,
-    #hail_areas: Hail core area
-    #hail_centroid_lon,hail_centroid_lat: Hail core centroid coordinates
-    #hail_storm_lon,hail_storm_lat: Storm object centroids associated with the hail core
-    #ax: Subplot object to be built on with each contour
-    #f: Placefile, edited throughout the program
     return hail_areas,hail_centroid_lon,hail_centroid_lat,hail_storm_lon,hail_storm_lat,ax,f
