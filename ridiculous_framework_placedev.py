@@ -621,7 +621,9 @@ def multi_case_algorithm_ML1_dev(storm_relative_dir, zdrlev, kdplev, REFlev, REF
             
             new_angle_all = shaped_ang + storm_relative_dir
             
-            shaped_ang = Bunkers_m - new_angle_all
+            shaped_ang = (new_angle_all - Bunkers_m)* (-1)
+            
+            shaped_ang = 180 - shaped_ang
             
             ###Now let's consolidate everything to fit the Pandas dataframe!
             p_zdr_areas = []
