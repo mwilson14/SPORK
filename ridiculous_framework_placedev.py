@@ -47,7 +47,7 @@ from zhh_section import zhh_objects
 from kdpfoot_section import kdp_objects
 from zdr_col_section import zdrcol
 
-def multi_case_algorithm_ML1_dev(storm_relative_dir, zdrlev, kdplev, REFlev, REFlev1, big_storm, zero_z_trigger, storm_to_track, year, month, day, hour, start_min, duration, calibration, station, h_Z0C, Bunkers_m, track_dis=10):
+def multi_case_algorithm_ML1_placedev(storm_relative_dir, zdrlev, kdplev, REFlev, REFlev1, big_storm, zero_z_trigger, storm_to_track, year, month, day, hour, start_min, duration, calibration, station, h_Z0C, Bunkers_m, track_dis=10):
     #Set vector perpendicular to FFD Z gradient
     storm_relative_dir = storm_relative_dir
     #Set storm motion
