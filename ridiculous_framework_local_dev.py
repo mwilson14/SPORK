@@ -213,17 +213,17 @@ def multi_case_algorithm_ML1_devLOCAL(storm_relative_dir, zdrlev, kdplev, REFlev
                 scale='50m',
                 facecolor='none')
         #Make sure these shapefiles are in the same directory as the script
-        fname = 'cb_2016_us_county_20m/cb_2016_us_county_20m.shp'
-        fname2 = 'cb_2016_us_state_20m/cb_2016_us_state_20m.shp'
-        counties = ShapelyFeature(Reader(fname).geometries(),ccrs.PlateCarree(), facecolor = 'none', edgecolor = 'black')
-        states = ShapelyFeature(Reader(fname2).geometries(),ccrs.PlateCarree(), facecolor = 'none', edgecolor = 'black')
+        #fname = 'cb_2016_us_county_20m/cb_2016_us_county_20m.shp'
+        #fname2 = 'cb_2016_us_state_20m/cb_2016_us_state_20m.shp'
+        #counties = ShapelyFeature(Reader(fname).geometries(),ccrs.PlateCarree(), facecolor = 'none', edgecolor = 'black')
+        #states = ShapelyFeature(Reader(fname2).geometries(),ccrs.PlateCarree(), facecolor = 'none', edgecolor = 'black')
 
         #Create a figure and plot up the initial data and contours for the algorithm
         fig=plt.figure(n,figsize=(30.,25.))
         ax = plt.subplot(111,projection=ccrs.PlateCarree())
         ax.coastlines('50m',edgecolor='black',linewidth=0.75)
-        ax.add_feature(counties, edgecolor = 'black', linewidth = 0.5)
-        ax.add_feature(states, edgecolor = 'black', linewidth = 1.5)
+        #ax.add_feature(counties, edgecolor = 'black', linewidth = 0.5)
+        #ax.add_feature(states, edgecolor = 'black', linewidth = 1.5)
         ax.set_extent([LL[0],UR[0],LL[1],UR[1]])
         REFlevels = np.arange(20,73,2)
         depth_levels= np.arange(0.01,23,1)

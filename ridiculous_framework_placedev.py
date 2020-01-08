@@ -214,17 +214,17 @@ def multi_case_algorithm_ML1_placedev(storm_relative_dir, zdrlev, kdplev, REFlev
                 scale='50m',
                 facecolor='none')
         #Make sure these shapefiles are in the same directory as the script
-        fname = 'cb_2016_us_county_20m/cb_2016_us_county_20m.shp'
-        fname2 = 'cb_2016_us_state_20m/cb_2016_us_state_20m.shp'
-        counties = ShapelyFeature(Reader(fname).geometries(),ccrs.PlateCarree(), facecolor = 'none', edgecolor = 'black')
-        states = ShapelyFeature(Reader(fname2).geometries(),ccrs.PlateCarree(), facecolor = 'none', edgecolor = 'black')
+        #fname = 'cb_2016_us_county_20m/cb_2016_us_county_20m.shp'
+        #fname2 = 'cb_2016_us_state_20m/cb_2016_us_state_20m.shp'
+        #counties = ShapelyFeature(Reader(fname).geometries(),ccrs.PlateCarree(), facecolor = 'none', edgecolor = 'black')
+        #states = ShapelyFeature(Reader(fname2).geometries(),ccrs.PlateCarree(), facecolor = 'none', edgecolor = 'black')
 
         #Create a figure and plot up the initial data and contours for the algorithm
         fig=plt.figure(n,figsize=(30.,25.))
         ax = plt.subplot(111,projection=ccrs.PlateCarree())
         ax.coastlines('50m',edgecolor='black',linewidth=0.75)
-        ax.add_feature(counties, edgecolor = 'black', linewidth = 0.5)
-        ax.add_feature(states, edgecolor = 'black', linewidth = 1.5)
+        #ax.add_feature(counties, edgecolor = 'black', linewidth = 0.5)
+        #ax.add_feature(states, edgecolor = 'black', linewidth = 1.5)
         ax.set_extent([LL[0],UR[0],LL[1],UR[1]])
         REFlevels = np.arange(20,73,2)
         depth_levels= np.arange(0.01,23,1)
@@ -772,7 +772,7 @@ def multi_case_algorithm_ML1_placedev(storm_relative_dir, zdrlev, kdplev, REFlev
         f.write('Font: 1, 30, 1,"Arial" \n')
         for y in range(len(p_zdr_areas)):
             #f.write('Text: '+str(max_lats_c[y])+','+str(max_lons_c[y])+', 1, "X"," Arc Area: '+str(p_zdr_areas[y])+'\\n Arc Mean: '+str(p_zdr_means[y])+'\\n KDP-ZDR Separation: '+str(p_separations[y])+'\\n Separation Angle: '+str(p_sp_angle[y])+'" \n')
-            f.write('Text: '+str(max_lats_c[y])+','+str(max_lons_c[y])+', 1, "X"," Arc Area: %.2f km^2 \\n Arc Mean: %.2f dB \\n Arc 10 Max Mean: %.2f dB \\n KDP-ZDR Separation: %.2f km \\n Separation Angle: %.2f degrees \\n ZDR Column Area: %.2f km^2 \\n ZDR Column Depth: %.2f m \\n Hail Area: %.2f km^2" \n' %(p_zdr_areas[y], p_zdr_means[y], p_zdr_10max[y], p_separations[y], p_sp_angle[y], p_col_areas[y], p_column_max_depths[y]*250, p_hail_areas[y]))
+            f.write('Text: '+str(max_lats_c[y])+','+str(max_lons_c[y])+', 1, "X"," Arc Area: %.2f km^2 \\n Arc Mean: %.2f dB \\n Arc 10 Max Mean: %.2f dB \\n KDP-ZDR Separation: %.2f km \\n Separation Angle: %.2f degrees \\n ZDR Column Area: %.2f km^2 \\n ZDR Column Depth: %.2f m \\n Hail Area: %.2f km^2" \n' %(p_zdr_areas[y], p_zdr_means[y], p_zdr_10max[y], p_separations[y], p_sp_angle[y], p_col_areas[y], p_col_max_depths[y]*250, p_hail_areas[y]))
 
 
 
