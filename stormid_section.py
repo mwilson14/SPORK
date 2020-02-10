@@ -43,7 +43,11 @@ def storm_objects(refc,proj,REFlev,REFlev1,big_storm,smoothed_ref,ax,rlons,rlats
                         polygon = polygon.difference(polygon_new)
 
                 #Transform the polygon's coordinates to the proper projection and calculate area
-                pr_area = (transform(proj, polygon).area * units('m^2')).to('km^2')
+                #Testing a try statement here to eliminate some errors
+                try:
+                    pr_area = (transform(proj, polygon).area * units('m^2')).to('km^2')
+                except:
+                    continue
                 #Use the polygon boundary to select all points within the polygon via a mask
                 boundary = np.asarray(polygon.boundary.xy)
                 polypath = Path(boundary.transpose())
