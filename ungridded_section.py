@@ -12,7 +12,10 @@ def quality_control(radar1,n,calibration):
     ni = 0
     tilts = []
     for i in range(radar1.nsweeps):
-        radar2 = radar1.extract_sweeps([i])
+        try:
+            radar2 = radar1.extract_sweeps([i])
+        except:
+            continue
         #Checking to make sure the tilt in question has all needed data and is the right elevation
         if ((np.max(np.asarray(radar2.fields['differential_reflectivity']['data'])) != np.min(np.asarray(radar2.fields['differential_reflectivity']['data'])))):
             if ((np.mean(radar2.elevation['data']) < .65)):

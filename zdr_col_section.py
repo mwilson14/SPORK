@@ -29,20 +29,32 @@ def zdrcol(zdrrc,ZDRrmasked,CC_c,REFrmasked,grad_ffd,grad_mag,KDP,ZDR_sum_stuff,
                         polygon = polygon_new
                     else:
                         polygon = polygon.difference(polygon_new)
-
-                pr_area = (transform(proj, polygon).area * units('m^2')).to('km^2')
-                boundary = np.asarray(polygon.boundary.xy)
-                polypath = Path(boundary.transpose())
-                coord_map = np.vstack((rlons[0,:,:].flatten(), rlats[0,:,:].flatten())).T # create an Mx2 array listing all the coordinates in field
-                mask_col = polypath.contains_points(coord_map).reshape(rlons[0,:,:].shape)
-                mean_col = np.mean(ZDRrmasked[mask_col])
-                mean_cccol = np.mean(CC_c[mask_col])
-                mean_Zcol = np.mean(REFrmasked[mask_col])
-                mean_graddircol = np.mean(grad_ffd[mask_col])
-                mean_gradcol = np.mean(grad_mag[mask_col])
-                mean_kdpcol = np.mean(KDP[mask_col])
-                col_depth = ZDR_sum_stuff[mask_col]
-                mean_kdp_r = np.mean(KDPrmasked[mask_col])
+                try:
+                    pr_area = (transform(proj, polygon).area * units('m^2')).to('km^2')
+                    boundary = np.asarray(polygon.boundary.xy)
+                    polypath = Path(boundary.transpose())
+                    coord_map = np.vstack((rlons[0,:,:].flatten(), rlats[0,:,:].flatten())).T # create an Mx2 array listing all the coordinates in field
+                    mask_col = polypath.contains_points(coord_map).reshape(rlons[0,:,:].shape)
+                    mean_col = np.mean(ZDRrmasked[mask_col])
+                    mean_cccol = np.mean(CC_c[mask_col])
+                    mean_Zcol = np.mean(REFrmasked[mask_col])
+                    mean_graddircol = np.mean(grad_ffd[mask_col])
+                    mean_gradcol = np.mean(grad_mag[mask_col])
+                    mean_kdpcol = np.mean(KDP[mask_col])
+                    col_depth = ZDR_sum_stuff[mask_col]
+                    mean_kdp_r = np.mean(KDPrmasked[mask_col])
+                    
+                except:
+                    pr_area = 0.0
+                    mask_col = np.nan
+                    mean_col = np.nan
+                    mean_cccol = np.nan
+                    mean_Zcol = np.nan
+                    mean_graddircol = np.nan
+                    mean_gradcol = np.nan
+                    mean_kdpcol = np.nan
+                    col_depth = np.nan
+                    mean_kdp_r = np.nan
 
                 try:
                     max_depth = np.max(col_depth)
