@@ -5,7 +5,7 @@ from metpy.units import atleast_1d, check_units, concatenate, units
 from matplotlib.path import Path
 from matplotlib.patches import PathPatch
 from pyproj import Geod
-from metpy.calc import get_wind_dir, get_wind_speed, get_wind_components
+from metpy.calc import wind_direction, wind_speed, wind_components
 
 def zdrarc(zdrc,ZDRmasked,CC,REF,grad_ffd,grad_mag,KDP,forest_loaded,ax,f,time_start,month,d_beg,h_beg,min_beg,sec_beg,d_end,h_end,min_end,sec_end,rlons,rlats,max_lons_c,max_lats_c,zdrlev,proj,storm_relative_dir,Outer_r,Inner_r,tracking_ind):
     #Inputs,
@@ -101,7 +101,7 @@ def zdrarc(zdrc,ZDRmasked,CC,REF,grad_ffd,grad_mag,KDP,forest_loaded,ax,f,time_s
                         else:
                             directions_raw = (-1) * rawangle[np.where(dist == np.min(dist))[0][0]]
 
-                        xc, yc = get_wind_components(np.min(dist)*units('m/s'), directions_raw * units('degree'))
+                        xc, yc = wind_components(np.min(dist)*units('m/s'), directions_raw * units('degree'))
                         ARC_X = np.zeros((1, 12))
                         ARC_X[:,0] = pr_area.magnitude
                         ARC_X[:,1] = np.min(dist)
