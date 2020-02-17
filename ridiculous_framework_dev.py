@@ -27,7 +27,7 @@ from scipy import ndimage as ndi
 #from skimage.feature import peak_local_max
 #from skimage import data, img_as_float
 from pyproj import Geod
-from metpy.calc import get_wind_dir, get_wind_speed, get_wind_components
+from metpy.calc import wind_direction, wind_speed, wind_components
 import matplotlib.lines as mlines
 import pandas as pd
 import scipy.stats as stats

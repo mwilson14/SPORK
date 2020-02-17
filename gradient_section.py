@@ -2,7 +2,7 @@ import numpy as np
 import numpy.ma as ma
 from scipy import ndimage as ndi
 from metpy.units import atleast_1d, check_units, concatenate, units
-from metpy.calc import get_wind_dir, get_wind_speed, get_wind_components
+from metpy.calc import wind_direction, wind_speed, wind_components
 
 def grad_mask(Zint,REFmasked,REF,storm_relative_dir,ZDRmasked1,ZDRrmasked1,CC,CCall):
       #Inputs,
@@ -21,8 +21,8 @@ def grad_mask(Zint,REFmasked,REF,storm_relative_dir,ZDRmasked1,ZDRrmasked1,CC,CC
       REFgradient = np.asarray(np.gradient(smoothed_ref1))
       REFgradient[0,:,:] = ma.masked_where(REF < 20, REFgradient[0,:,:])
       REFgradient[1,:,:] = ma.masked_where(REF < 20, REFgradient[1,:,:])
-      grad_dir1 = get_wind_dir(REFgradient[1,:,:] * units('m/s'), REFgradient[0,:,:] * units('m/s'))
-      grad_mag = get_wind_speed(REFgradient[1,:,:] * units('m/s'), REFgradient[0,:,:] * units('m/s'))
+      grad_dir1 = wind_direction(REFgradient[1,:,:] * units('m/s'), REFgradient[0,:,:] * units('m/s'))
+      grad_mag = wind_speed(REFgradient[1,:,:] * units('m/s'), REFgradient[0,:,:] * units('m/s'))
       grad_dir = ma.masked_where(REF < 20, grad_dir1)
 
       #Get difference between the gradient direction and the FFD gradient direction calculated earlier

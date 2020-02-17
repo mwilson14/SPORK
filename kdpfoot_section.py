@@ -25,8 +25,10 @@ def kdp_objects(kdpc,KDPmasked,ax,f,time_start,month,d_beg,h_beg,min_beg,sec_beg
                         polygon = polygon_new
                     else:
                         polygon = polygon.difference(polygon_new)
-
-                pr_area = (transform(proj, polygon).area * units('m^2')).to('km^2')
+                try:
+                    pr_area = (transform(proj, polygon).area * units('m^2')).to('km^2')
+                except:
+                    continue
                 boundary = np.asarray(polygon.boundary.xy)
                 polypath = Path(boundary.transpose())
                 coord_map = np.vstack((rlons[0,:,:].flatten(), rlats[0,:,:].flatten())).T # create an Mx2 array listing all the coordinates in field

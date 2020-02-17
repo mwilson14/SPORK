@@ -6,7 +6,7 @@ from matplotlib.path import Path
 from matplotlib.patches import PathPatch
 import matplotlib.pyplot as plt
 from pyproj import Geod
-from metpy.calc import get_wind_dir, get_wind_speed, get_wind_components
+from metpy.calc import wind_direction, wind_speed, wind_components
 
 def zdrcol(zdrrc,ZDRrmasked,CC_c,REFrmasked,grad_ffd,grad_mag,KDP,ZDR_sum_stuff,KDPrmasked,depth_levels,forest_loaded_col,ax,f,time_start,month,d_beg,h_beg,min_beg,sec_beg,d_end,h_end,min_end,sec_end,rlons,rlats,max_lons_c,max_lats_c,ref_areas,proj,storm_relative_dir,tracking_ind,object_number):
     col_areas = []
@@ -109,7 +109,7 @@ def zdrcol(zdrrc,ZDRrmasked,CC_c,REFrmasked,grad_ffd,grad_mag,KDP,ZDR_sum_stuff,
                         
                         dist_norm = np.min(dist_col)/np.sqrt(storm_area/np.pi)
 
-                        xc, yc = get_wind_components(dist_norm*units('m/s'), directions_raw * units('degree'))
+                        xc, yc = wind_components(dist_norm*units('m/s'), directions_raw * units('degree'))
                         COL_X = np.zeros((1, 15))
                         COL_X[:,0] = pr_area.magnitude
                         COL_X[:,1] = dist_norm
